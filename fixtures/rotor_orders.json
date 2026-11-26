@@ -1,0 +1,24 @@
+{
+  "heads": [
+    "A",
+    "B"
+  ],
+  "per_head_squared": 1,
+  "base_squared": 1,
+  "paired_phases": [
+    "0",
+    "90",
+    "180",
+    "270"
+  ],
+  "orders": {
+    "a_then_b": {
+      "simultaneous": false,
+      "uses_same_pack": true
+    },
+    "both_available": {
+      "simultaneous": true,
+      "uses_same_pack": false
+    }
+  }
+}
