@@ -1,0 +1,18 @@
+[
+  {
+    "subsystem": "sled",
+    "fixture": "fixtures/sled_initial.json"
+  },
+  {
+    "subsystem": "handling",
+    "fixture": "fixtures/handling_initial.json"
+  },
+  {
+    "subsystem": "sled",
+    "fixture": "fixtures/sled_recheck.json"
+  },
+  {
+    "subsystem": "handling",
+    "fixture": "fixtures/handling_recheck.json"
+  }
+]

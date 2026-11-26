@@ -1,0 +1,26 @@
+[
+  {
+    "op": "lift",
+    "sleds": [
+      "A",
+      "B"
+    ],
+    "max_grams": 18000,
+    "max_offset_mm": 10,
+    "event_id": "s7"
+  },
+  {
+    "op": "fit",
+    "serial": "A",
+    "accepted_connectors": [
+      "keyed-N"
+    ],
+    "event_id": "s8"
+  },
+  {
+    "op": "receive",
+    "serial": "A",
+    "max_residue_mg": 8,
+    "event_id": "s9"
+  }
+]

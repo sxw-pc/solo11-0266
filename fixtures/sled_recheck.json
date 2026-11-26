@@ -1,0 +1,11 @@
+[
+  {
+    "op": "measure",
+    "event_id": "s6",
+    "serial": "A",
+    "grams": 8000,
+    "offset_mm": 70,
+    "connector": "keyed-S",
+    "residue_mg": 12
+  }
+]

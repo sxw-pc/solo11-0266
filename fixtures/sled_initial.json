@@ -1,0 +1,20 @@
+[
+  {
+    "op": "measure",
+    "event_id": "s1",
+    "serial": "A",
+    "grams": 8000,
+    "offset_mm": 30,
+    "connector": "keyed-N",
+    "residue_mg": 4
+  },
+  {
+    "op": "measure",
+    "event_id": "s2",
+    "serial": "B",
+    "grams": 8000,
+    "offset_mm": -30,
+    "connector": "keyed-N",
+    "residue_mg": 4
+  }
+]

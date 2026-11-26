@@ -40,3 +40,14 @@ Run the intake and recheck fixtures in order, then verify their replay:
 python -B -m usagecourt deployment_demo --db facility.sqlite
 python -B -m usagecourt replay --db facility.sqlite
 ```
+
+### Sled handling checks
+
+The `sled` bench records the current tray mass, signed center offset, connector key,
+and residual contamination measurement. `handling` uses these measurements for a
+lift balance check, harness matching, and the wash-line receiving decision.
+
+```sh
+python -B -m usagecourt deployment_demo --fixture fixtures/handling_examples.json --db handling.sqlite
+python -B -m usagecourt replay --db handling.sqlite
+```
