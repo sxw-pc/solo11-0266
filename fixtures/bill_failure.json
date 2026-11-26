@@ -1,7 +1,7 @@
 [
  {"event_id":"settle-blocked","op":"settle","id":"settle-blocked","invoice":"invoice-a","tenant":"tenant-a","at":80},
- {"event_id":"dispute-2","op":"dispute","id":"dispute-2","line":"resolve-1:new","tenant":"tenant-a","reason":"outage","evidence":"incident-1","claim_amount":0},
- {"event_id":"resolve-2","op":"resolve","id":"resolve-2","dispute":"dispute-2","arbitrator":"auditor-a","actor":"auditor-a","approved_amount":0,"at":81},
+ {"event_id":"dispute-2","op":"dispute","id":"dispute-2","line":"resolve-1:new","tenant":"tenant-a","reason":"outage","evidence":"incident-1","claim_amount":18},
+ {"event_id":"resolve-2","op":"resolve","id":"resolve-2","dispute":"dispute-2","arbitrator":"auditor-a","actor":"auditor-a","approved_amount":18,"at":81},
  {"event_id":"dispute-3","op":"dispute","id":"dispute-3","line":"invoice-a:2","tenant":"tenant-a","reason":"confirm","evidence":"meter-confirmed","claim_amount":54},
  {"event_id":"resolve-3","op":"resolve","id":"resolve-3","dispute":"dispute-3","arbitrator":"auditor-a","actor":"auditor-a","approved_amount":54,"at":82},
  {"event_id":"settle-2","op":"settle","id":"settle-2","invoice":"invoice-a","tenant":"tenant-a","at":83}

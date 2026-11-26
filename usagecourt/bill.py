@@ -43,6 +43,8 @@ def handle(db,x):
             return {'decision':'meter_unavailable'}
         if one(db,'SELECT 1 FROM invoice_lines WHERE invoice=?',(x['invoice'],)):
             return {'decision':'invoice_identity_conflict'}
+        if one(db,'SELECT 1 FROM invoice_lines WHERE meter_case=? AND prior_id IS NULL',(case['id'],)):
+            return {'decision':'meter_already_billed'}
         parts=segments(db,case)
         if parts is None:return {'decision':'price_gap_or_conflict'}
         for i,p in enumerate(parts,1):
@@ -60,6 +62,7 @@ def handle(db,x):
             return {'decision':'dispute_denied'}
         db.execute('INSERT INTO disputes VALUES(?,?,?,?,?,?,?,?)',(x['id'],x['line'],x['tenant'],x['reason'],x['evidence'],x['claim_amount'],'open',None))
         db.execute("UPDATE invoice_lines SET status='disputed' WHERE id=?",(x['line'],))
+        db.execute("UPDATE settlements SET status='review' WHERE invoice=? AND status='settled'",(line['invoice'],))
         return {'decision':'line_frozen'}
     if op=='resolve':
         d=one(db,'SELECT * FROM disputes WHERE id=?',(x['dispute'],))
@@ -67,9 +70,16 @@ def handle(db,x):
         arb=one(db,'SELECT * FROM arbitrators WHERE id=?',(x['arbitrator'],))
         if not d or d['status']!='open' or not line or line['status']!='disputed' or not arb or arb['status']!='active' or arb['tenant']!=d['tenant'] or arb['actor']!=x['actor'] or arb['expires']<x['at'] or x['approved_amount']<0:
             return {'decision':'resolution_denied'}
+        case=one(db,'SELECT * FROM meter_cases WHERE id=?',(line['meter_case'],))
+        parts=segments(db,case) if case else None
+        current=next((p for p in parts if p['start']==line['start'] and p['ends']==line['ends']),None) if parts else None
+        if not current or x['approved_amount']!=d['claim_amount'] or x['approved_amount']!=current['amount']:
+            return {'decision':'resolution_unsubstantiated'}
+        if current['amount']!=line['amount'] and not one(db,"SELECT 1 FROM outages WHERE identity=? AND uid=? AND status='accepted' AND receipt=? AND start<? AND ends>?",(case['identity'],case['uid'],d['evidence'],line['ends'],line['start'])):
+            return {'decision':'resolution_evidence_unmatched'}
         reverse=f"{x['id']}:reverse";replacement=f"{x['id']}:new"
         db.execute('INSERT INTO invoice_lines VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',(reverse,line['invoice'],line['meter_case'],line['tenant'],line['resource'],line['start'],line['ends'],-line['quantity'],line['rate'],-line['amount'],line['price'],line['discount'],'reversal',line['id']))
-        db.execute('INSERT INTO invoice_lines VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',(replacement,line['invoice'],line['meter_case'],line['tenant'],line['resource'],line['start'],line['ends'],line['quantity'],line['rate'],x['approved_amount'],line['price'],line['discount'],'issued',line['id']))
+        db.execute('INSERT INTO invoice_lines VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',(replacement,line['invoice'],line['meter_case'],line['tenant'],line['resource'],line['start'],line['ends'],current['quantity'],current['rate'],current['amount'],current['price'],current['discount'],'issued',line['id']))
         db.execute("UPDATE invoice_lines SET status='reversed' WHERE id=?",(line['id'],))
         db.execute("UPDATE disputes SET status='resolved',resolution=? WHERE id=?",(x['id'],d['id']))
         return {'decision':'line_reissued','difference':x['approved_amount']-line['amount']}

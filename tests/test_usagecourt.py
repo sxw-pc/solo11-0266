@@ -26,10 +26,21 @@ class UsageTests(unittest.TestCase):
         lines=rows(self.db,"SELECT price,rate,amount FROM invoice_lines WHERE invoice='invoice-test' ORDER BY start")
         self.assertEqual([l['price'] for l in lines],['cpu-v1','cpu-v2'])
         self.assertEqual([l['amount'] for l in lines],[36,54])
+    def test_meter_case_cannot_be_billed_twice(self):
+        self.start()
+        self.assertEqual(run(self.db,'bill',{'event_id':'first-issue','op':'issue','invoice':'invoice-first','case':'meter-a','tenant':'tenant-a'})['decision'],'invoice_issued')
+        self.assertEqual(run(self.db,'bill',{'event_id':'second-issue','op':'issue','invoice':'invoice-second','case':'meter-a','tenant':'tenant-a'})['decision'],'meter_already_billed')
+        self.assertEqual(one(self.db,"SELECT COUNT(*) n FROM invoice_lines WHERE invoice='invoice-second'")['n'],0)
+    def test_dispute_amount_requires_source_evidence(self):
+        self.start()
+        self.fixture('bill','normal')
+        self.assertEqual(run(self.db,'bill',{'event_id':'bad-dispute','op':'dispute','id':'bad-dispute','line':'invoice-a:2','tenant':'tenant-a','reason':'meter_review','evidence':'unsigned-claim','claim_amount':1})['decision'],'line_frozen')
+        self.assertEqual(run(self.db,'bill',{'event_id':'bad-resolve','op':'resolve','id':'bad-resolve','dispute':'bad-dispute','arbitrator':'auditor-a','actor':'auditor-a','approved_amount':1,'at':72})['decision'],'resolution_unsubstantiated')
+        self.assertEqual(one(self.db,"SELECT status FROM invoice_lines WHERE id='invoice-a:2'")['status'],'disputed')
     def test_dispute_freezes_only_line_and_reversal_preserves_original(self):
         self.start();results=self.fixture('bill','normal')
         self.assertEqual(results[0]['total'],90)
-        self.assertEqual(results[-1],{'decision':'invoice_settled','total':64})
+        self.assertEqual(results[-1],{'decision':'invoice_settled','total':90})
         original=one(self.db,"SELECT * FROM invoice_lines WHERE id='invoice-a:1'")
         reverse=one(self.db,"SELECT * FROM invoice_lines WHERE id='resolve-1:reverse'")
         self.assertEqual((original['status'],original['amount'],reverse['amount']),('reversed',36,-36))
@@ -38,6 +49,7 @@ class UsageTests(unittest.TestCase):
         self.assertEqual(one(self.db,"SELECT status FROM settlements WHERE id='settle-1'")['status'],'review')
         self.assertEqual(self.fixture('bill','failure')[0]['decision'],'invoice_blocked')
         self.assertEqual(one(self.db,"SELECT status FROM settlements WHERE id='settle-2'")['status'],'settled')
+        self.assertEqual(one(self.db,"SELECT total FROM settlements WHERE id='settle-2'")['total'],72)
     def test_same_name_new_uid_cannot_inherit_old_meter(self):
         self.start();self.fixture('bill','normal')
         self.assertEqual(run(self.db,'meter',{'event_id':'rebuild','op':'identity','id':'pod-a','namespace':'checkout','uid':'uid-b','tenant':'tenant-b','generation':2,'cluster':'west'})['decision'],'identity_recorded')
