@@ -1,0 +1,5 @@
+[
+ {"op":"factor","event_id":"factor-east","id":"east-baseline","cluster":"east","start":0,"end":100,"grams_per_unit":3},
+ {"op":"declare","event_id":"carbon-a","id":"carbon-a","case":"meter-a","tenant":"tenant-a"},
+ {"op":"inspect","event_id":"carbon-inspect","tenant":"tenant-a"}
+]

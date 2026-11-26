@@ -1,0 +1,5 @@
+[
+ {"op":"pool","event_id":"quota-pool","id":"tenant-base-quota","tenant":"tenant-a","resource":"cpu","start":0,"end":100,"units":50},
+ {"op":"charge","event_id":"quota-charge","pool":"tenant-base-quota","tenant":"tenant-a","case":"meter-a"},
+ {"op":"assess","event_id":"quota-assess","pool":"tenant-base-quota","tenant":"tenant-a"}
+]

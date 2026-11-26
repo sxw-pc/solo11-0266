@@ -5,11 +5,11 @@ from contextlib import contextmanager
 TABLES=('prices','discounts','discount_approvals','identities','samples','outages','meter_cases','invoice_lines','disputes','arbitrators','settlements','events')
 
 def connect(path):
-    from . import tariff,meter,bill
+    from . import tariff,meter,bill,carbon,quota
     db=sqlite3.connect(path,isolation_level=None)
     db.row_factory=sqlite3.Row
     db.execute('PRAGMA busy_timeout=5000')
-    db.executescript('CREATE TABLE IF NOT EXISTS events(seq INTEGER PRIMARY KEY AUTOINCREMENT,event_id TEXT UNIQUE,subsystem TEXT,payload TEXT,result TEXT);'+tariff.SCHEMA+meter.SCHEMA+bill.SCHEMA)
+    db.executescript('CREATE TABLE IF NOT EXISTS events(seq INTEGER PRIMARY KEY AUTOINCREMENT,event_id TEXT UNIQUE,subsystem TEXT,payload TEXT,result TEXT);'+tariff.SCHEMA+meter.SCHEMA+bill.SCHEMA+carbon.SCHEMA+quota.SCHEMA)
     return db
 
 @contextmanager
@@ -29,8 +29,8 @@ def one(db,sql,args=()):
 def rows(db,sql,args=()):return [dict(r) for r in db.execute(sql,args)]
 
 def run(db,subsystem,command):
-    from . import tariff,meter,bill
-    modules={'tariff':tariff,'meter':meter,'bill':bill}
+    from . import tariff,meter,bill,carbon,quota
+    modules={'tariff':tariff,'meter':meter,'bill':bill,'carbon':carbon,'quota':quota}
     if subsystem not in modules or not command.get('event_id'):raise ValueError('subsystem and event_id required')
     payload=json.dumps(command,ensure_ascii=False,sort_keys=True)
     with tx(db):
@@ -41,12 +41,13 @@ def run(db,subsystem,command):
         return result
 
 def replay(path):
+    from . import carbon,quota
     source=connect(path);target=connect(':memory:');differences=[]
     events=rows(source,'SELECT * FROM events ORDER BY seq')
     for e in events:
         actual=run(target,e['subsystem'],json.loads(e['payload']))
         if actual!=json.loads(e['result']):differences.append({'event':e['event_id']})
-    for table in TABLES:
+    for table in TABLES+carbon.TABLES+quota.TABLES:
         a=[tuple(r) for r in source.execute('SELECT * FROM '+table+' ORDER BY rowid')]
         b=[tuple(r) for r in target.execute('SELECT * FROM '+table+' ORDER BY rowid')]
         if a!=b:differences.append({'table':table})

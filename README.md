@@ -13,3 +13,10 @@ python -m unittest discover -s tests -v
 ```
 
 单独调用可用 `python -m usagecourt tariff --db state.sqlite --fixture fixtures/tariff_normal.json`，`meter` 和 `bill` 类推。六份正常与失败样例以 tariff-normal、meter-normal、bill-normal、tariff-failure、meter-failure、bill-failure 的顺序共享状态。`report` 输出不可变事件；`replay` 在空库重放并逐业务表比较。
+
+For operational reports, run `meter` with `fixtures/meter_normal.json` in a
+fresh database. The `carbon` and `quota` commands can then consume
+`fixtures/carbon_examples.json` and `fixtures/quota_examples.json` respectively.
+They report simulated emissions and compute allowance from metered facts, and
+surface later meter corrections on inspection. `replay` validates both sets of
+operational tables as well as the original billing tables.
