@@ -1,0 +1,8 @@
+[
+ {"op":"assign","event_id":"inspect-assign","id":"east-observation","cluster":"east","start":0,"end":3},
+ {"op":"observe","event_id":"inspect-pos0","inspection":"east-observation","position":0,"sample":"sample-a"},
+ {"op":"observe","event_id":"inspect-pos2","inspection":"east-observation","position":2,"sample":"sample-a"},
+ {"op":"inspect","event_id":"inspect-gaps","inspection":"east-observation"},
+ {"op":"observe","event_id":"inspect-pos1","inspection":"east-observation","position":1,"sample":"sample-a"},
+ {"op":"inspect","event_id":"inspect-final","inspection":"east-observation"}
+]

@@ -20,3 +20,9 @@ fresh database. The `carbon` and `quota` commands can then consume
 They report simulated emissions and compute allowance from metered facts, and
 surface later meter corrections on inspection. `replay` validates both sets of
 operational tables as well as the original billing tables.
+
+After loading `meter_normal.json`, `license` manages per-cluster software seats
+bound to the existing tenant and instance UID. `inspection` records positions
+received from metering collectors and reports missing position ranges. For each
+command, `fixtures/<command>_examples.json` is a runnable example. Neither
+command calculates an invoice amount. Replay checks both sets of tables.

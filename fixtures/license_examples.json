@@ -1,0 +1,7 @@
+[
+ {"op":"register","event_id":"license-reg","id":"local-tools","tenant":"tenant-a","product":"compiler","cluster":"east","seats":1},
+ {"op":"checkout","event_id":"license-checkout","id":"session-a","license":"local-tools","tenant":"tenant-a","identity":"pod-a","uid":"uid-a"},
+ {"op":"checkout","event_id":"license-excess","id":"session-b","license":"local-tools","tenant":"tenant-a","identity":"pod-a","uid":"uid-a"},
+ {"op":"audit","event_id":"license-audit","license":"local-tools","tenant":"tenant-a"},
+ {"op":"checkin","event_id":"license-close","id":"session-a","license":"local-tools","tenant":"tenant-a","uid":"uid-a"}
+]
