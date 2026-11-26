@@ -1,0 +1,18 @@
+[
+  {
+    "subsystem": "appliance",
+    "fixture": "fixtures/appliance_intake.json"
+  },
+  {
+    "subsystem": "facility",
+    "fixture": "fixtures/facility_intake.json"
+  },
+  {
+    "subsystem": "appliance",
+    "fixture": "fixtures/appliance_rechecked.json"
+  },
+  {
+    "subsystem": "facility",
+    "fixture": "fixtures/facility_rechecked.json"
+  }
+]

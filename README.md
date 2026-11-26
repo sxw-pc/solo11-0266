@@ -26,3 +26,17 @@ bound to the existing tenant and instance UID. `inspection` records positions
 received from metering collectors and reports missing position ranges. For each
 command, `fixtures/<command>_examples.json` is a runnable example. Neither
 command calculates an invoice amount. Replay checks both sets of tables.
+
+
+### Edge appliance intake
+
+`appliance record` imports the latest measured running power, service clearance, and
+peak shock for a serial. `facility` compares those observations with registered bay
+limits and carrier claim thresholds. Missing observations leave the decision pending.
+
+Run the intake and recheck fixtures in order, then verify their replay:
+
+```sh
+python -B -m usagecourt deployment_demo --db facility.sqlite
+python -B -m usagecourt replay --db facility.sqlite
+```

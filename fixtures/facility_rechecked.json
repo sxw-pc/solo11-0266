@@ -1,0 +1,20 @@
+[
+  {
+    "op": "energize",
+    "bay": "R1",
+    "serial": "EG-22",
+    "event_id": "e8"
+  },
+  {
+    "op": "service",
+    "bay": "R1",
+    "serial": "EG-22",
+    "event_id": "e9"
+  },
+  {
+    "op": "claim",
+    "contract": "C1",
+    "serial": "EG-22",
+    "event_id": "e10"
+  }
+]

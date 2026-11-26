@@ -1,0 +1,10 @@
+[
+  {
+    "event_id": "e1",
+    "op": "record",
+    "serial": "EG-22",
+    "running_watts": 320,
+    "clearance_mm": 640,
+    "shock_g": 5
+  }
+]

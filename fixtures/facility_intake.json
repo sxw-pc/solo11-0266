@@ -1,0 +1,33 @@
+[
+  {
+    "event_id": "e2",
+    "op": "register_bay",
+    "bay": "R1",
+    "available_watts": 400,
+    "service_aisle_mm": 750
+  },
+  {
+    "event_id": "e3",
+    "op": "register_freight",
+    "contract": "C1",
+    "claim_threshold_g": 10
+  },
+  {
+    "op": "energize",
+    "bay": "R1",
+    "serial": "EG-22",
+    "event_id": "e4"
+  },
+  {
+    "op": "service",
+    "bay": "R1",
+    "serial": "EG-22",
+    "event_id": "e5"
+  },
+  {
+    "op": "claim",
+    "contract": "C1",
+    "serial": "EG-22",
+    "event_id": "e6"
+  }
+]
