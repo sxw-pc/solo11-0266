@@ -1,0 +1,18 @@
+{
+  "full": {
+    "rows": [
+      0,
+      1,
+      2
+    ],
+    "unused_spare_columns": 0
+  },
+  "reserve": {
+    "rows": [
+      0,
+      1
+    ],
+    "unused_spare_columns": 1
+  },
+  "pattern": "shared"
+}

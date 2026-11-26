@@ -1,0 +1,56 @@
+[
+  {
+    "op": "install",
+    "event_id": "sram-install",
+    "die": "D17",
+    "spec": {
+      "rows": [
+        0,
+        1,
+        2
+      ],
+      "columns": [
+        0,
+        1,
+        2
+      ],
+      "spare_rows": [
+        3
+      ],
+      "spare_columns": [
+        3,
+        4
+      ],
+      "stuck_zero": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "couplings": [
+        [
+          [
+            2,
+            3
+          ],
+          [
+            1,
+            3
+          ]
+        ]
+      ]
+    }
+  }
+]

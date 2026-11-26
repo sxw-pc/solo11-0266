@@ -4,7 +4,7 @@ from .store import connect,run,replay,rows
 
 def main():
     p=argparse.ArgumentParser()
-    p.add_argument('command',choices=['tariff','meter','bill','demo','report','replay'])
+    p.add_argument('command',choices=['tariff','meter','bill','die','patterns','demo','report','replay'])
     p.add_argument('--db',default='demo.sqlite');p.add_argument('--fixture')
     a=p.parse_args()
     if a.command=='replay':result=replay(a.db)
