@@ -1,0 +1,7 @@
+[
+ {"event_id":"price-1","op":"price","id":"cpu-v1","tenant":"tenant-a","resource":"cpu","generation":1,"start":0,"ends":50,"rate":2},
+ {"event_id":"price-2","op":"price","id":"cpu-v2","tenant":"tenant-a","resource":"cpu","generation":2,"start":50,"ends":100,"rate":3},
+ {"event_id":"discount-1","op":"discount","id":"discount-a","tenant":"tenant-a","resource":"cpu","threshold":20,"percent":10,"start":0,"ends":100},
+ {"event_id":"approval-1","op":"approve","id":"approval-1","discount":"discount-a","actor":"finance-a","role":"finance","expires":100},
+ {"event_id":"approval-2","op":"approve","id":"approval-2","discount":"discount-a","actor":"owner-a","role":"owner","expires":100}
+]

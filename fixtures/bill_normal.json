@@ -1,0 +1,7 @@
+[
+ {"event_id":"invoice-1","op":"issue","invoice":"invoice-a","case":"meter-a","tenant":"tenant-a"},
+ {"event_id":"arb-1","op":"arbitrator","id":"auditor-a","tenant":"tenant-a","actor":"auditor-a","role":"auditor","generation":1,"expires":100,"at":10},
+ {"event_id":"dispute-1","op":"dispute","id":"dispute-1","line":"invoice-a:1","tenant":"tenant-a","reason":"meter_review","evidence":"tenant-signed-evidence-1","claim_amount":10},
+ {"event_id":"resolve-1","op":"resolve","id":"resolve-1","dispute":"dispute-1","arbitrator":"auditor-a","actor":"auditor-a","approved_amount":10,"at":70},
+ {"event_id":"settle-1","op":"settle","id":"settle-1","invoice":"invoice-a","tenant":"tenant-a","at":71}
+]

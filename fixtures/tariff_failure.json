@@ -1,0 +1,5 @@
+[
+ {"event_id":"overlap-price","op":"price","id":"cpu-overlap","tenant":"tenant-a","resource":"cpu","generation":3,"start":40,"ends":60,"rate":4},
+ {"event_id":"bad-approval","op":"approve","id":"bad-approval","discount":"discount-a","actor":"owner-a","role":"owner","expires":50},
+ {"event_id":"stale-price","op":"price","id":"cpu-stale","tenant":"tenant-a","resource":"cpu","generation":1,"start":100,"ends":110,"rate":4}
+]

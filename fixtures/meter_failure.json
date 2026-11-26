@@ -1,0 +1,6 @@
+[
+ {"event_id":"wrong-uid","op":"sample","id":"wrong-uid","identity":"pod-a","uid":"uid-old","tenant":"tenant-a","resource":"cpu","cluster":"east","start":60,"ends":70,"units":2,"source":"node-meter"},
+ {"event_id":"overlap-sample","op":"sample","id":"overlap-sample","identity":"pod-a","uid":"uid-a","tenant":"tenant-a","resource":"cpu","cluster":"east","start":45,"ends":55,"units":2,"source":"sidecar"},
+ {"event_id":"gap-case","op":"seal","id":"gap-case","identity":"pod-a","sample":"sample-a","resource":"cpu","start":30,"ends":60},
+ {"event_id":"outage-1","op":"outage","id":"outage-a","identity":"pod-a","uid":"uid-a","start":45,"ends":50,"cause":"platform","receipt":"incident-1"}
+]

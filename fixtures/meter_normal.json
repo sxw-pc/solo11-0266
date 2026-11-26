@@ -1,0 +1,5 @@
+[
+ {"event_id":"identity-1","op":"identity","id":"pod-a","namespace":"checkout","uid":"uid-a","tenant":"tenant-a","generation":1,"cluster":"east"},
+ {"event_id":"sample-1","op":"sample","id":"sample-a","identity":"pod-a","uid":"uid-a","tenant":"tenant-a","resource":"cpu","cluster":"east","start":40,"ends":60,"units":2,"source":"node-meter"},
+ {"event_id":"case-1","op":"seal","id":"meter-a","identity":"pod-a","sample":"sample-a","resource":"cpu","start":40,"ends":60}
+]
