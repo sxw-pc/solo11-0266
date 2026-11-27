@@ -2,7 +2,7 @@ import json
 import sqlite3
 from contextlib import contextmanager
 
-TABLES=('prices','discounts','discount_approvals','identities','samples','outages','meter_cases','invoice_lines','disputes','arbitrators','settlements','events')
+TABLES=('prices','discounts','discount_approvals','identities','samples','outages','meter_cases','invoice_lines','disputes','arbitrators','settlements','vouchers','commitments','voucher_redemptions','voucher_reservations','voucher_quarantine','events')
 
 def connect(path):
     from . import tariff,meter,bill

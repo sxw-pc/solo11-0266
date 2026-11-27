@@ -1,0 +1,6 @@
+[
+ {"event_id":"voucher-36","op":"voucher_buy","id":"voucher-36","batch":"batch-36","tenant":"tenant-a","resource":"memory","price":"mem-v1","face":36,"starts":0,"ends":130},
+ {"event_id":"voucher-g-buy","op":"voucher_buy","id":"voucher-g","batch":"batch-g","tenant":"tenant-a","resource":"memory","price":null,"face":20,"faces":[20,20],"group_id":"group-g","starts":0,"ends":130},
+ {"event_id":"commitment-1","op":"commitment_register","id":"commit-g","tenant":"tenant-a","resource":"memory","price":"mem-v2","amount":40,"starts":100,"ends":120},
+ {"event_id":"issue-z","op":"issue","invoice":"invoice-z","case":"meter-z","tenant":"tenant-a"}
+]

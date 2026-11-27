@@ -1,0 +1,4 @@
+[
+ {"event_id":"trap-voucher-buy","op":"voucher_buy","id":"voucher-trap","batch":"batch-trap","tenant":"tenant-b","resource":"memory","price":"mem-b-v1","face":30,"faces":[30,30],"group_id":"group-trap","starts":0,"ends":130},
+ {"event_id":"trap-issue","op":"issue","invoice":"invoice-trap","case":"meter-b","tenant":"tenant-b"}
+]

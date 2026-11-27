@@ -12,7 +12,7 @@ def main():
         db=connect(a.db)
         if a.command=='report':result=rows(db,'SELECT * FROM events ORDER BY seq')
         else:
-            if a.command=='demo':files=[(sub,f'fixtures/{sub}_{kind}.json') for sub,kind in [('tariff','normal'),('meter','normal'),('bill','normal'),('tariff','failure'),('meter','failure'),('bill','failure')]]
+            if a.command=='demo':files=[(sub,f'fixtures/{sub}_{kind}.json') for sub,kind in [('tariff','normal'),('meter','normal'),('bill','normal'),('tariff','failure'),('meter','failure'),('bill','failure'),('tariff','voucher'),('meter','voucher'),('bill','voucher'),('tariff','trap'),('meter','trap'),('bill','trap')]]
             elif a.fixture:files=[(a.command,a.fixture)]
             else:p.error('--fixture required')
             result=[{'fixture':file,'results':[run(db,sub,x) for x in json.loads(Path(file).read_text(encoding='utf-8'))]} for sub,file in files]

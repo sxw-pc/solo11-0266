@@ -1,0 +1,7 @@
+[
+ {"event_id":"mem-price-1","op":"price","id":"mem-v1","tenant":"tenant-a","resource":"memory","generation":1,"start":0,"ends":50,"rate":2},
+ {"event_id":"mem-price-2","op":"price","id":"mem-v2","tenant":"tenant-a","resource":"memory","generation":2,"start":50,"ends":100,"rate":3},
+ {"event_id":"mem-discount","op":"discount","id":"discount-mem","tenant":"tenant-a","resource":"memory","threshold":20,"percent":10,"start":0,"ends":100},
+ {"event_id":"mem-approval-1","op":"approve","id":"mem-approval-1","discount":"discount-mem","actor":"finance-a","role":"finance","expires":100},
+ {"event_id":"mem-approval-2","op":"approve","id":"mem-approval-2","discount":"discount-mem","actor":"owner-a","role":"owner","expires":100}
+]

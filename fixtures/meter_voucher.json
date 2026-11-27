@@ -1,0 +1,4 @@
+[
+ {"event_id":"sample-z","op":"sample","id":"sample-z","identity":"pod-a","uid":"uid-a","tenant":"tenant-a","resource":"memory","cluster":"east","start":30,"ends":70,"units":2,"source":"node-meter"},
+ {"event_id":"case-z","op":"seal","id":"meter-z","identity":"pod-a","sample":"sample-z","resource":"memory","start":40,"ends":60}
+]

@@ -40,7 +40,7 @@ class UsageTests(unittest.TestCase):
     def test_dispute_freezes_only_line_and_reversal_preserves_original(self):
         self.start();results=self.fixture('bill','normal')
         self.assertEqual(results[0]['total'],90)
-        self.assertEqual(results[-1],{'decision':'invoice_settled','total':90})
+        self.assertEqual(results[-1],{'decision':'invoice_settled','total':90,'voucher_deduction':0,'net_due':90})
         original=one(self.db,"SELECT * FROM invoice_lines WHERE id='invoice-a:1'")
         reverse=one(self.db,"SELECT * FROM invoice_lines WHERE id='resolve-1:reverse'")
         self.assertEqual((original['status'],original['amount'],reverse['amount']),('reversed',36,-36))

@@ -1,0 +1,3 @@
+[
+ {"event_id":"trap-price-1","op":"price","id":"mem-b-v1","tenant":"tenant-b","resource":"memory","generation":1,"start":0,"ends":100,"rate":1}
+]

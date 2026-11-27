@@ -1,0 +1,5 @@
+[
+ {"event_id":"trap-identity","op":"identity","id":"pod-b","namespace":"billing","uid":"uid-b","tenant":"tenant-b","generation":1,"cluster":"east"},
+ {"event_id":"trap-sample","op":"sample","id":"sample-b","identity":"pod-b","uid":"uid-b","tenant":"tenant-b","resource":"memory","cluster":"east","start":0,"ends":40,"units":2,"source":"node-meter"},
+ {"event_id":"trap-case","op":"seal","id":"meter-b","identity":"pod-b","sample":"sample-b","resource":"memory","start":10,"ends":30}
+]
