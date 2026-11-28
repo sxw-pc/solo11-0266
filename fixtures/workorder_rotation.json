@@ -1,0 +1,40 @@
+[
+  {"subsystem": "rotor", "event_id": "stock-w1", "op": "stock", "token": "w1"},
+  {"subsystem": "rotor", "event_id": "stock-w2", "op": "stock", "token": "w2"},
+  {"subsystem": "rotor", "event_id": "stock-w3", "op": "stock", "token": "w3"},
+  {"subsystem": "rotor", "event_id": "stock-w4", "op": "stock", "token": "w4"},
+  {"subsystem": "rotor", "event_id": "stock-w5", "op": "stock", "token": "w5"},
+  {"subsystem": "rotor", "event_id": "install-A", "op": "install", "head": "A",
+   "specification": {"low": {"base": [-2, -1], "a": [1, 0], "b": [0, 1]},
+                     "high": {"base": [-1, -2], "a": [0, 1], "b": [1, 0]}}},
+  {"subsystem": "rotor", "event_id": "install-B", "op": "install", "head": "B",
+   "specification": {"low": {"base": [-1, -2], "a": [1, 0], "b": [0, 1]},
+                     "high": {"base": [-2, -1], "a": [0, 1], "b": [1, 0]}}},
+
+  {"subsystem": "workorder", "event_id": "rotate-open", "op": "open_order",
+   "id": "order-rotate", "kind": "a_then_b", "simultaneous": false,
+   "uses_same_pack": true, "heads": ["A", "B"],
+   "phases": ["0", "90", "180", "270"], "per_head_limit": 1, "stand_limit": 1},
+
+  {"subsystem": "workorder", "event_id": "rotate-issue", "op": "issue",
+   "order": "order-rotate", "tokens": ["w1", "w2"]},
+
+  {"subsystem": "rotor", "event_id": "rotate-mount-a", "op": "mount",
+   "head": "A", "a": ["w1"], "b": ["w2"]},
+  {"subsystem": "spinstand", "event_id": "rotate-spin-a", "op": "spin",
+   "heads": ["A"], "phase": "270", "individual_limit": 1, "stand_limit": 1},
+  {"subsystem": "workorder", "event_id": "rotate-accept-a", "op": "accept",
+   "order": "order-rotate", "head": "A", "spin_event": "rotate-spin-a"},
+
+  {"subsystem": "rotor", "event_id": "rotate-release-a", "op": "mount",
+   "head": "A", "a": [], "b": []},
+  {"subsystem": "rotor", "event_id": "rotate-mount-b", "op": "mount",
+   "head": "B", "a": ["w1"], "b": ["w2"]},
+  {"subsystem": "spinstand", "event_id": "rotate-spin-b", "op": "spin",
+   "heads": ["B"], "phase": "270", "individual_limit": 1, "stand_limit": 1},
+  {"subsystem": "workorder", "event_id": "rotate-accept-b", "op": "accept",
+   "order": "order-rotate", "head": "B", "spin_event": "rotate-spin-b"},
+
+  {"subsystem": "workorder", "event_id": "rotate-deliver", "op": "deliver",
+   "order": "order-rotate"}
+]

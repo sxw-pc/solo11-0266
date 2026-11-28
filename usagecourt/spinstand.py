@@ -45,7 +45,7 @@ def handle(db, command):
     heads = [rotor.head(db,name) for name in names]
     if any(row is None for row in heads):
         return {'decision':'unknown_head'}
-    result = {'heads':names,'revisions':[h['revision'] for h in heads],'phase':phase,
+    result = {'event_id': command['event_id'], 'heads':names,'revisions':[h['revision'] for h in heads],'phase':phase,
               **evaluate(heads,phase,individual_limit,stand_limit)}
     db.execute('INSERT INTO rotor_runs VALUES(?,?)', (command['event_id'],json.dumps(result,sort_keys=True)))
     return result

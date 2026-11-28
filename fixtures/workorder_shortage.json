@@ -1,0 +1,51 @@
+[
+  {"subsystem": "rotor", "event_id": "stock-w1", "op": "stock", "token": "w1"},
+  {"subsystem": "rotor", "event_id": "stock-w2", "op": "stock", "token": "w2"},
+  {"subsystem": "rotor", "event_id": "stock-w3", "op": "stock", "token": "w3"},
+  {"subsystem": "rotor", "event_id": "stock-w4", "op": "stock", "token": "w4"},
+  {"subsystem": "rotor", "event_id": "install-A", "op": "install", "head": "A",
+   "specification": {"low": {"base": [-2, -1], "a": [1, 0], "b": [0, 1]},
+                     "high": {"base": [-1, -2], "a": [0, 1], "b": [1, 0]}}},
+  {"subsystem": "rotor", "event_id": "install-B", "op": "install", "head": "B",
+   "specification": {"low": {"base": [-1, -2], "a": [1, 0], "b": [0, 1]},
+                     "high": {"base": [-2, -1], "a": [0, 1], "b": [1, 0]}}},
+
+  {"subsystem": "workorder", "event_id": "joint-open", "op": "open_order",
+   "id": "order-joint", "kind": "both_available", "simultaneous": true,
+   "uses_same_pack": false, "heads": ["A", "B"],
+   "phases": ["0", "90", "180", "270"], "per_head_limit": 1, "stand_limit": 1},
+
+  {"subsystem": "rotor", "event_id": "stock-w5", "op": "stock", "token": "w5"},
+  {"subsystem": "workorder", "event_id": "joint-replan", "op": "replan",
+   "order": "order-joint"},
+
+  {"subsystem": "workorder", "event_id": "joint-issue", "op": "issue",
+   "order": "order-joint",
+   "tokens": ["w1", "w2", "w3", "w4", "w5"]},
+
+  {"subsystem": "rotor", "event_id": "joint-mount-a", "op": "mount",
+   "head": "A", "a": ["w1"], "b": ["w2"]},
+  {"subsystem": "rotor", "event_id": "joint-mount-b", "op": "mount",
+   "head": "B", "a": ["w3"], "b": ["w4", "w5"]},
+
+  {"subsystem": "spinstand", "event_id": "joint-spin-0", "op": "spin",
+   "heads": ["A", "B"], "phase": "0", "individual_limit": 1, "stand_limit": 1},
+  {"subsystem": "spinstand", "event_id": "joint-spin-90", "op": "spin",
+   "heads": ["A", "B"], "phase": "90", "individual_limit": 1, "stand_limit": 1},
+  {"subsystem": "spinstand", "event_id": "joint-spin-180", "op": "spin",
+   "heads": ["A", "B"], "phase": "180", "individual_limit": 1, "stand_limit": 1},
+  {"subsystem": "spinstand", "event_id": "joint-spin-270", "op": "spin",
+   "heads": ["A", "B"], "phase": "270", "individual_limit": 1, "stand_limit": 1},
+
+  {"subsystem": "workorder", "event_id": "joint-accept-0", "op": "accept",
+   "order": "order-joint", "phase": "0", "spin_event": "joint-spin-0"},
+  {"subsystem": "workorder", "event_id": "joint-accept-90", "op": "accept",
+   "order": "order-joint", "phase": "90", "spin_event": "joint-spin-90"},
+  {"subsystem": "workorder", "event_id": "joint-accept-180", "op": "accept",
+   "order": "order-joint", "phase": "180", "spin_event": "joint-spin-180"},
+  {"subsystem": "workorder", "event_id": "joint-accept-270", "op": "accept",
+   "order": "order-joint", "phase": "270", "spin_event": "joint-spin-270"},
+
+  {"subsystem": "workorder", "event_id": "joint-deliver", "op": "deliver",
+   "order": "order-joint"}
+]
