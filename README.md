@@ -26,3 +26,51 @@ bound to the existing tenant and instance UID. `inspection` records positions
 received from metering collectors and reports missing position ranges. For each
 command, `fixtures/<command>_examples.json` is a runnable example. Neither
 command calculates an invoice amount. Replay checks both sets of tables.
+
+## Licence seat transfer between two clusters
+
+A licence may be held on one cluster and moved to another without ever letting
+both clusters issue the same seat. The `license` protocol keeps these three
+things apart:
+
+* **approval** (`approve`) — an administrator approves exactly one seat,
+  `source -> target`. It is permission, not a seat.
+* **entitlement copy** (`transfer`) — the origin delivers a copy to the target.
+  A copy grants nothing by itself; the target still cannot check out, and its
+  own local rows prove nothing about the origin.
+* **proof of stoppage** (`stop_evidence`) — both agents record the same signed
+  proof naming the source session, its instance UID, the boundary, and the
+  restore point. Recording it stops nothing.
+
+The origin then chooses one of two lawful outcomes from that same input:
+
+* `leave` keeps the session running at the origin and marks the target's copy
+  `declined`. The origin remains the only issuer; the target can never complete
+  or check out.
+* `handoff` stops the origin's own session at the boundary, signs an
+  attestation, and marks its copy `armed`. The origin may not reopen from then
+  on, even before the target confirms. The target consumes its `delivered` copy
+  plus the attestation with `complete`, opens exactly one session bound to its
+  own metered instance UID, and returns a receipt. The origin accepts only that
+  receipt (`complete` with `receipt=...`) and records the stop; it never opens
+  or reopens a session. Only a destination that actually completed makes it the
+  sole issuer.
+
+Each agent runs against its own database file. Messages cross by re-submitting
+the same `event_id`; nothing here writes another cluster's rows in one
+transaction. `probe` is read-only and reports, per site, what stopped, which
+restore point exists, and whether resuming is actually permitted — a restore
+record never doubles as permission. Tests demonstrate both outcomes from the
+same proof, a lost confirmation, a local restart, and a late revocation using
+two independent databases (`tests/test_license_transfer.py`).
+
+Schema note: `licenses` gained `origin`; `license_sessions` gained `cluster`,
+`credential`, `stopped_at`, `checkpoint`, `resume_uid` and `transferred`; and
+`license_evidence` gained `attested`. Older licence databases are upgraded in
+place the first time `license` handles an event.
+
+A single-site origin-side runnable example is
+`fixtures/license_transfer_examples.json` (load `meter_normal.json` first). It
+approves a transfer, delivers the copy, records the stoppable point, and elects
+to stay at the origin. The cross-cluster completion arm needs two databases and
+is demonstrated in `tests/test_license_transfer.py`.

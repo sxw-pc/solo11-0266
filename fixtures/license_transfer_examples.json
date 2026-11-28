@@ -1,0 +1,10 @@
+[
+ {"op":"join","event_id":"transfer-join","agent":"agent-east","cluster":"east"},
+ {"op":"register","event_id":"transfer-register","id":"compiler-seat","tenant":"tenant-a","product":"compiler","cluster":"east","origin":"east","seats":1},
+ {"op":"checkout","event_id":"transfer-checkout","id":"session-east","license":"compiler-seat","tenant":"tenant-a","identity":"pod-a","uid":"uid-a"},
+ {"op":"approve","event_id":"transfer-approve","license":"compiler-seat","tenant":"tenant-a","source":"east","target":"west","approval":"approval-1","seat_id":"session-east","issued":10,"credential":"synthetic-supplier-1"},
+ {"op":"transfer","event_id":"transfer-copy","id":"transfer-1","approval":"approval-1","credential":"synthetic-supplier-1"},
+ {"op":"stop_evidence","event_id":"transfer-proof","id":"proof-1","license":"compiler-seat","tenant":"tenant-a","session":"session-east","uid":"uid-a","boundary":60,"restore_uid":"restore-60","credential":"synthetic-supplier-1"},
+ {"op":"leave","event_id":"transfer-stay","approval":"approval-1","session":"session-east","credential":"synthetic-supplier-1"},
+ {"op":"probe","event_id":"transfer-probe","license":"compiler-seat","tenant":"tenant-a"}
+]
