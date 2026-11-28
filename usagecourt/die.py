@@ -50,6 +50,25 @@ def valid_spec(spec):
         return False
 
 
+def apply_burn(db, name, image):
+    """Append-only fuse burn shared by the die and delivery entry points."""
+    row = get(db,name)
+    if not row:
+        return {'decision':'unknown_die'}
+    spec = row['spec']
+    if (not isinstance(image,dict) or set(image)!={'rows','columns'}
+            or not validate_axis(image['rows'],spec['rows'],spec['spare_rows'])
+            or not validate_axis(image['columns'],spec['columns'],spec['spare_columns'])):
+        return {'decision':'invalid_image'}
+    for axis in ('rows','columns'):
+        if any(image[axis].get(origin)!=target for origin,target in row['image'][axis].items()):
+            return {'decision':'fuse_cannot_change','occupied':row['image']}
+    revision = row['revision'] + int(image != row['image'])
+    db.execute('UPDATE memory_dies SET image=?,revision=? WHERE id=?',
+               (json.dumps(image,sort_keys=True),revision,name))
+    return {'decision':'burned','revision':revision,'image':image}
+
+
 def handle(db, command):
     op = command['op']
     name = command['die']
@@ -66,16 +85,4 @@ def handle(db, command):
         return {'decision':'read','revision':row['revision'],'image':row['image']}
     if op != 'burn':
         return {'decision':'unknown_operation'}
-    image = command['image']
-    spec = row['spec']
-    if (not isinstance(image,dict) or set(image)!={'rows','columns'}
-            or not validate_axis(image['rows'],spec['rows'],spec['spare_rows'])
-            or not validate_axis(image['columns'],spec['columns'],spec['spare_columns'])):
-        return {'decision':'invalid_image'}
-    for axis in ('rows','columns'):
-        if any(image[axis].get(origin)!=target for origin,target in row['image'][axis].items()):
-            return {'decision':'fuse_cannot_change'}
-    revision = row['revision'] + int(image != row['image'])
-    db.execute('UPDATE memory_dies SET image=?,revision=? WHERE id=?',
-               (json.dumps(image,sort_keys=True),revision,name))
-    return {'decision':'burned','revision':revision,'image':image}
+    return apply_burn(db, name, command['image'])

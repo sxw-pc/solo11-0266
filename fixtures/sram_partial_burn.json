@@ -1,0 +1,12 @@
+[
+ {"event_id": "sram-install", "subsystem": "die", "op": "install", "die": "D17", "spec": {
+   "rows": [0, 1, 2], "columns": [0, 1, 2], "spare_rows": [3], "spare_columns": [3, 4],
+   "stuck_zero": [[0, 0], [0, 1], [2, 2], [3, 1]],
+   "couplings": [[[2, 3], [1, 3]]]}},
+ {"event_id": "partial-burn", "subsystem": "die", "op": "burn", "die": "D17",
+  "image": {"rows": {"0": 3}, "columns": {}}},
+ {"event_id": "full-replan", "op": "plan", "die": "D17", "contract": "full",
+  "rows": [0, 1, 2], "reserve_spare_columns": 0, "pattern": "shared"},
+ {"event_id": "reserve-replan", "op": "plan", "die": "D17", "contract": "reserve",
+  "rows": [0, 1], "reserve_spare_columns": 1, "pattern": "shared"}
+]

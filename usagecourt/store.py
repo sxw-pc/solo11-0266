@@ -2,14 +2,14 @@ import json
 import sqlite3
 from contextlib import contextmanager
 
-TABLES=('prices','discounts','discount_approvals','identities','samples','outages','meter_cases','invoice_lines','disputes','arbitrators','settlements','memory_dies','die_runs','events')
+TABLES=('prices','discounts','discount_approvals','identities','samples','outages','meter_cases','invoice_lines','disputes','arbitrators','settlements','memory_dies','die_runs','deliveries','events')
 
 def connect(path):
-    from . import tariff,meter,bill,die,patterns
+    from . import tariff,meter,bill,die,patterns,delivery
     db=sqlite3.connect(path,isolation_level=None)
     db.row_factory=sqlite3.Row
     db.execute('PRAGMA busy_timeout=5000')
-    db.executescript('CREATE TABLE IF NOT EXISTS events(seq INTEGER PRIMARY KEY AUTOINCREMENT,event_id TEXT UNIQUE,subsystem TEXT,payload TEXT,result TEXT);'+tariff.SCHEMA+meter.SCHEMA+bill.SCHEMA+die.SCHEMA+patterns.SCHEMA)
+    db.executescript('CREATE TABLE IF NOT EXISTS events(seq INTEGER PRIMARY KEY AUTOINCREMENT,event_id TEXT UNIQUE,subsystem TEXT,payload TEXT,result TEXT);'+tariff.SCHEMA+meter.SCHEMA+bill.SCHEMA+die.SCHEMA+patterns.SCHEMA+delivery.SCHEMA)
     return db
 
 @contextmanager
@@ -29,8 +29,8 @@ def one(db,sql,args=()):
 def rows(db,sql,args=()):return [dict(r) for r in db.execute(sql,args)]
 
 def run(db,subsystem,command):
-    from . import tariff,meter,bill,die,patterns
-    modules={'tariff':tariff,'meter':meter,'bill':bill,'die':die,'patterns':patterns}
+    from . import tariff,meter,bill,die,patterns,delivery
+    modules={'tariff':tariff,'meter':meter,'bill':bill,'die':die,'patterns':patterns,'delivery':delivery}
     if subsystem not in modules or not command.get('event_id'):raise ValueError('subsystem and event_id required')
     payload=json.dumps(command,ensure_ascii=False,sort_keys=True)
     with tx(db):
