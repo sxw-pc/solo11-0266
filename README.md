@@ -26,3 +26,18 @@ bound to the existing tenant and instance UID. `inspection` records positions
 received from metering collectors and reports missing position ranges. For each
 command, `fixtures/<command>_examples.json` is a runnable example. Neither
 command calculates an invoice amount. Replay checks both sets of tables.
+
+`counter` handles offline accelerator meter swaps under one service UID. Its
+simulated machine room (`DatacenterAgent`, `Device`, `Coordinator` in
+`usagecourt/counter.py`) is deliberately separate from the SQLite transaction:
+the legacy wire interface stays fixed (read remainder / stop / zero, no period
+or task number, replies may be lost) and a previous shift's queued zero can land
+late. The ledger only seals a physical counter period from a continuous chain
+of coordinator-witnessed reads; an unwitnessed zero leaves the remainder
+ambiguous, keeps it unsealable and blocks reopening the device or routing the
+slot to the spare. A retain route keeps the old machine accepting, while a
+replace route requires a witnessed stop and lets the spare's first real task
+open a new period. Sealed counter evidence is offered to `inspection` under the
+UID that owned the period but never creates an invoice or settlement. The
+acceptance cases live in `tests/test_counter.py`; replay includes the counter
+tables.
