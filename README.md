@@ -51,3 +51,20 @@ lift balance check, harness matching, and the wash-line receiving decision.
 python -B -m usagecourt deployment_demo --fixture fixtures/handling_examples.json --db handling.sqlite
 python -B -m usagecourt replay --db handling.sqlite
 ```
+
+### Sealed frame intake from an old dual probe
+
+`sealed` receives a two-part frame measured by a legacy dual probe with a
+reversible connector. A reading pair is only one of two swaps of the same
+multiset, never an independent cross product, so the frame total is invariant.
+`batch_authorize` admits a whole frame by that total under a materials
+authorisation; no item becomes claimable. `sort_release` keeps the frame out of
+received stock and releases one qualified item only after in-place direction
+evidence at the measurement station or local handoff slot. The legacy
+`position 4 received` readback carries no serial and can only be attributed by
+the matching handoff token.
+
+```sh
+python -B -m usagecourt sealed --db sealed.sqlite --fixture fixtures/sealed_frames.json
+python -B -m usagecourt replay --db sealed.sqlite
+```

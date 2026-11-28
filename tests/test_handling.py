@@ -19,7 +19,7 @@ class HandlingTests(unittest.TestCase):
                 for step in manifest:
                     commands = json.loads((ROOT / step['fixture']).read_text())
                     outcomes.append([run(db, step['subsystem'], c)['decision'] for c in commands])
-            self.assertEqual(outcomes[1], ['lift_balanced', 'cable_fits', 'receive_direct'])
+            self.assertEqual(outcomes[1], ['lift_balanced', 'cable_fits', 'wash_before_receiving'])
             self.assertEqual(outcomes[3], ['lift_rejected', 'different_harness_required', 'wash_before_receiving'])
             self.assertEqual(replay(path), {'verified': True, 'decisions': 9, 'divergences': []})
 

@@ -1,0 +1,12 @@
+[
+  {
+    "op": "frame_measure",
+    "event_id": "si1",
+    "frame": "F1",
+    "serials": ["A", "B"],
+    "left_mg": 2,
+    "right_mg": 10,
+    "token": "slot-F1",
+    "origin": "line-2"
+  }
+]

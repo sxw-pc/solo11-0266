@@ -6,7 +6,7 @@
     "grams": 8000,
     "offset_mm": 30,
     "connector": "keyed-N",
-    "residue_mg": 4
+    "residue_mg": 12
   },
   {
     "op": "measure",
